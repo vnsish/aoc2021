@@ -1,11 +1,6 @@
 import numpy as np
 
-def getdiffp1(p1, p2):
-    if p1[0] != p2[0] and p1[1] != p2[1]:
-        return False
-    return p2[0]-p1[0], p2[1]-p1[1]
-
-def getdiffp2(p1, p2):
+def getdiff(p1, p2):
     return p2[0]-p1[0], p2[1]-p1[1]
 
 def part1(input):
@@ -19,19 +14,14 @@ def part1(input):
     for element in points:
         p1 = (int(element[0].split(',')[0]), int(element[0].split(',')[1]))
         p2 = (int(element[1].split(',')[0]), int(element[1].split(',')[1]))
-        diff = getdiffp2(p1,p2)
-        if diff[0] == 0:
-            stepx = 0 
-        else:
-            stepx = diff[0]/abs(diff[0])
+        
+        diff = getdiff(p1,p2)
+        
+        stepx = 0 if diff[0] == 0 else diff[0]/abs(diff[0])
+        stepy = 0 if diff[1] == 0 else diff[1]/abs(diff[1])
+        steps = abs(diff[0]) if diff[0] != 0 and diff[1] != 0 else abs(diff[0] - diff[1])
 
-        if diff[1] == 0:
-            stepy = 0
-        else:
-            stepy = diff[1]/abs(diff[1])
-
-        if diff[0] == 0 or diff[1] == 0: 
-            steps = abs(diff[0] + diff[1])
+        if stepx == 0 or stepy == 0:
             for i in range(steps+1):
                 chart[p1[1]+int(0+i*stepy)][p1[0]+int(0+i*stepx)] += 1
 
@@ -54,21 +44,11 @@ def part2(input):
     for element in points:
         p1 = (int(element[0].split(',')[0]), int(element[0].split(',')[1]))
         p2 = (int(element[1].split(',')[0]), int(element[1].split(',')[1]))
-        diff = getdiffp2(p1,p2)
-        if diff[0] == 0:
-            stepx = 0 
-        else:
-            stepx = diff[0]/abs(diff[0])
-
-        if diff[1] == 0:
-            stepy = 0
-        else:
-            stepy = diff[1]/abs(diff[1])
-
-        if diff[0] != 0 and diff[1] != 0: 
-            steps = abs(diff[0])
-        else:
-            steps = abs(diff[0] - diff[1])
+        diff = getdiff(p1,p2)
+        
+        stepx = 0 if diff[0] == 0 else diff[0]/abs(diff[0])
+        stepy = 0 if diff[1] == 0 else diff[1]/abs(diff[1])
+        steps = abs(diff[0]) if diff[0] != 0 and diff[1] != 0 else abs(diff[0] - diff[1])
 
         for i in range(steps+1):
             chart[p1[1]+int(0+i*stepy)][p1[0]+int(0+i*stepx)] += 1
